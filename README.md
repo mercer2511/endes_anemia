@@ -1,108 +1,125 @@
-### Título Tentativo  
-*Relación entre el Índice de Bienestar Socioeconómico del Hogar y la Prevalencia de Anemia en Niños Menores de 5 Años en Perú: Un Análisis de la ENDES 2023*
+# Análisis de la Asociación entre el Índice de Bienestar del Hogar y la Anemia en Niños Menores de 5 Años en Perú (ENDES 2023)
 
----
+## 1. Descripción General
 
-### Planteamiento del Problema  
-La anemia en niños menores de 5 años es un problema de salud pública relevante en Perú, asociado a complicaciones en el desarrollo físico y cognitivo y a consecuencias a largo plazo en la productividad y el bienestar. Diversos estudios sugieren que factores socioeconómicos, como el nivel de bienestar del hogar, influyen de manera sustancial en la nutrición y la salud infantil.  
-Sin embargo, no se ha profundizado lo suficiente en cómo se relaciona el índice de bienestar—calculado a partir de características de la vivienda y la tenencia de bienes—con la presencia y la gravedad de la anemia durante la infancia.  
-El presente estudio busca determinar la existencia de una asociación significativa entre el índice de bienestar del hogar y la clasificación de la anemia infantil, empleando la Encuesta Demográfica y de Salud Familiar (ENDES) 2023.
+Este proyecto investiga la relación entre el índice de bienestar socioeconómico del hogar y la severidad de la anemia en niños de 6 a 59 meses en Perú, utilizando datos de la Encuesta Demográfica y de Salud Familiar (ENDES) 2023. Se ajusta un modelo de regresión ordinal logit para determinar si los hogares con menor bienestar (medido a través de un índice de riqueza categorizado en quintiles) presentan una mayor probabilidad de tener niños con anemia más grave.
 
----
+## 2. Hipótesis
 
-### Variables  
+| Símbolo              | Formulación                                                                                                                                                                      |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **H₀ (nula)**        | El índice de bienestar del hogar **no** se asocia con la presencia ni la gravedad de la anemia en niños de 6-59 meses.                                                           |
+| **H₁ (alternativa)** | El índice de bienestar del hogar **sí** se asocia con la presencia y/o mayor gravedad de la anemia; se espera mayor riesgo de anemia severa en los quintiles de menor bienestar. |
 
-| Tipo                      | Contenido                                                                                                                                                                                                                                                                                                         | Detalle ENDES 2023                                                                                                                                     |
-|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *Dependiente*             | Anemia en niños de 6-59 meses                                                                                                                                                                                                                                                                                     | Variable HC57 (o HW57) <br>1 = grave, 2 = moderada, 3 = leve, 4 = sin anemia <br>También se puede recodificar a binaria (anémico = 1, no anémico = 0). |
-| *Independiente principal* | Índice de Bienestar (nivel socioeconómico)                                                                                                                                                                                                                                                                        | Puntaje o quintil HV270 del módulo *RECH0*.                                                                                                            |
-| *Covariables clave*       | • Edad del niño (meses) HC <br>• Sexo del niño (del roster HV104) <br>• Edad de la madre HV105 <br>• Nivel educativo materno HV106/HV109 <br>• Área de residencia HV025, región HV024 <br>• Fuente de agua HV201, saneamiento HV205, combustible HV226 (RECH23) <br>• Seguro de salud materno SH11C (SIS) (RECH4) |
+## 3. Estructura del Proyecto
 
----
+```
+endes_anemia/
+│
+├─ data/                
+│   ├─ RECH6_2023.csv         # Datos del niño (edad, sexo, nivel de anemia, etc.)
+│   ├─ RECH0_2023.csv         # Datos del hogar (cluster, estrato, ponderadores)
+│   ├─ RECH23_2023.csv        # Información de la vivienda e índice de riqueza (HV270, HV271)
+│   └─ RECH1_2023.csv         # Datos del roster familiar (edad y educación de la madre)
+│
+├─ outputs/                 
+│   ├─ anemia_clean.parquet   # Dataset limpio y fusionado generado
+│   ├─ modelo_ordinal.txt     # Resumen del modelo de regresión ordinal
+│   └─ figuras/               # Gráficos y visualizaciones (si los hay)
+│
+├─ src/                     
+│   ├─ 01_read_merge.py       # Script para la lectura, fusión y limpieza de datos
+│   └─ 02_model_ordinal.py    # Script para el ajuste del modelo ordinal logit
+│
+└─ README.md                  # Este documento
+```
 
-### Hipótesis  
+## 4. Instalación y Requisitos
 
-| Símbolo            | Formulación                                                                                                                                                                    |
-|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *H₀ (nula)*        | El índice de bienestar del hogar *no* se asocia con la presencia ni la gravedad de la anemia en niños de 6-59 meses.                                                           |
-| *H₁ (alternativa)* | El índice de bienestar del hogar *sí* se asocia con la presencia y/o mayor gravedad de la anemia; se espera mayor riesgo de anemia severa en los quintiles de menor bienestar. |
+### Requisitos
+- Python 3.10+  
+- Paquetes: `pandas`, `numpy`, `statsmodels`, `pyreadstat`, `matplotlib`, `seaborn`
 
----
+### Instalación
+Puedes instalar los paquetes necesarios utilizando pip:
 
-### Método Estadístico Sugerido  
+```bash
+pip install pandas numpy statsmodels pyreadstat matplotlib seaborn
+```
 
-1. *Regresión ordinal (modelo logit acumulativo / proporcional de odds)*  
-   - Variable respuesta: nivel de anemia (4 categorías ordenadas).  
-   - Predictora principal: quintil de riqueza.  
-2. *Diseño muestral complejo*  
-   - Cluster: HV001  
-   - Estrato: HV022  
-   - Peso: HV005 / 1 000 000  
-   - En Python se puede ajustar con statsmodels.miscmodels.ordinal_model.OrdinalModel y errores robustos ponderados; para varianzas tipo‐Taylor, considerar el paquete **statsmodels-survey** o exportar a R (survey/srvyr).  
-3. *Análisis complementarios*  
-   - Regresión logística binaria (anémico vs. no anémico) para comparar con la ordinal.  
-   - Modelos de sensibilidad con distintos subconjuntos (área urbana/rural, altitud > 2500 m, etc.).  
-   - Descriptivos y mapas de calor para visualizar la distribución de anemia por quintil y región.
+## 5. Metodología
 
----
+### 5.1. Lectura y Unión de Datos
+- **Fuentes de datos:**  
+  Se hace uso de cuatro archivos CSV:
+  - **RECH6_2023.csv:** Contiene información sobre la anemia, la edad y el sexo de los niños, y un identificador (`HC60`) para enlazar datos de la madre.
+  - **RECH0_2023.csv:** Aporta datos del hogar, incluyendo variables de diseño muestral (cluster, estrato y el factor de ponderación `HV005`).
+  - **RECH23_2023.csv:** Contiene información sobre la vivienda y el índice de riqueza (`HV270` y `HV271`).
+  - **RECH1_2023.csv:** Proporciona datos del roster familiar, en particular, la edad y el nivel educativo de la madre (renombrado como `edu_sup`).
 
-### Recomendaciones para Usar la Base ENDES  
+- **Fusión de Datos:**  
+  Se unen los archivos utilizando la llave `HHID` (y `HC60` para conectar datos de RECH6 y RECH1) para construir un único dataset.
 
-1. *Módulos CSV mínimos* 
+### 5.2. Limpieza y Transformación de Datos
+- **Filtrado:**  
+  Se seleccionan únicamente los registros de niños de 6 a 59 meses y se excluyen aquellos con valores no válidos en la variable de anemia.
+- **Creación de Variables Derivadas:**  
+  - Se define la variable `quintil` a partir de `HV270` (ya categorizado en 1 a 5).
+  - Se recodifica el sexo del niño (`HC27`) a una variable binaria (`sexo_nino`).
+  - Se calcula la variable `peso` a partir de `HV005` (dividido por 1,000,000).
+  - Se crea una variable binaria de anemia (`anemia_bin`) para análisis complementarios.
 
-   | Propósito                                 | Archivo CSV         | Identificadores clave                   |
-   |-------------------------------------------|---------------------|-----------------------------------------|
-   | Anemia y edad del niño                    | *RECH6* (HHID, HC0) | HHID, HC0, HC57, HC                     |
-   | Bienestar y ponderadores                  | *RECH0*             | HHID, HV270, HV001, HV022, HV005        |
-   | Datos de la madre                         | *RECH1*             | HHID, HVIDX, HV105, HV106, HV109, HV112 |
-   | Seguro/ocupación de la madre (opcional)   | *RECH4*             | HHID, IDXH4, SH11C                      |
-   | Agua, saneamiento, combustible (opcional) | *RECH23*            | HHID, HV201, HV205, HV226, HV237*       |
+### 5.3. Modelado Estadístico
+- Se ajusta un **modelo de regresión ordinal logit** usando `OrderedModel` de statsmodels.
+- Las variables predictoras incluyen:  
+  - `quintil` (índice de bienestar),  
+  - `HC1` (edad del niño),  
+  - `sexo_nino`,  
+  - `edad_madre` y  
+  - `edu_sup` (nivel educativo de la madre).
+- Se incluyen ponderadores derivados de `HV005` para respetar el diseño muestral.
 
-2. *Enlace de módulos*  
-   - HHID enlaza hogar ↔ niño/madre.  
-   - Línea de madre: HV112 (en RECH1) = HC60 (en RECH6).  
+### 5.4. Interpretación de Resultados
+- Se examina el summary del modelo, en el que:
+  - Los coeficientes y sus odds ratios explican la magnitud del efecto.
+  - Los parámetros de corte indican los umbrales del modelo ordinal.
 
-3. *Depuración y validación*  
-   - Filtrar niños de 6–59 meses (HC between 6 and 59).  
-   - Excluir códigos faltantes (9996/9997/9998).  
-   - Recalcular quintiles si prefieres usar la distribución ponderada 2023.  
+## 6. Resultados Iniciales
 
-4. *Aplicación de pesos y estratos*  
-   - Declarar diseño muestral en el software elegido para obtener *intervalos de confianza y p-valores correctos*.  
+- **Dataset Limpio:**  
+  Se generó un archivo `anemia_clean.parquet` con 19,265 registros.
+  
+- **Modelo Ordinal:**  
+  El modelo muestra que, por cada incremento en el quintil del índice de bienestar, se incrementan las odds de que el niño se encuentre en una categoría de anemia menos grave (Odds Ratio ≈ 1.26). Asimismo, variables como la edad del niño, el sexo, la edad y la educación de la madre resultaron significativas.
 
----
+## 7. Próximos Pasos y Mejoras
 
-### Tipo de Investigación  
+- **Incluir Variables Adicionales:**  
+  Agregar covariables relacionadas a las condiciones ambientales (acceso al agua, saneamiento, combustible) y otras características del hogar.
+  
+- **Ajuste por Diseño Muestral Complejo:**  
+  Explorar métodos que permitan incorporar la estratificación y el clustering en las inferencias (por ejemplo, a través de `statsmodels-survey` o exportando a R).
+  
+- **Validación del Modelo:**  
+  Realizar diagnósticos del modelo mediante análisis de residuales, validación cruzada y exploración de posibles interacciones o efectos no lineales.
+  
+- **Visualización:**  
+  Crear gráficos que ilustren la distribución del índice de bienestar, los efectos predichos y los odds ratios, para facilitar la comunicación de los hallazgos.
 
-| Aspecto         | Descripción                                                                                    |
-|-----------------|------------------------------------------------------------------------------------------------|
-| Diseño          | Observacional transversal (análisis secundario de la ENDES 2023).                              |
-| Enfoque         | Cuantitativo analítico.                                                                        |
-| Fuente de datos | Encuesta Demográfica y de Salud Familiar (ENDES) – muestra compleja estratificada & ponderada. |
+## 8. Ejecución
 
----
+Para reproducir el análisis:
+1. Ejecuta el script `src/01_read_merge.py` para generar el dataset limpio (`anemia_clean.parquet`).
+2. Ejecuta el script `src/02_model_ordinal.py` para ajustar el modelo ordinal y guardar el resumen en `outputs/modelo_ordinal.txt`.
 
-## Recapitulación final  
-CSV que realmente necesitas descargar/cargar para un *primer modelo ordinal* (bienestar → anemia) y los que puedes añadir después como extras.
+## 9. Contacto y Referencias
 
-| Prioridad | Archivo CSV | Variables que extraer                   | Para qué se usa                                                                                            |
-|-----------|-------------|-----------------------------------------|------------------------------------------------------------------------------------------------------------|
-| ★ Básico  | *RECH6*     | HHID, HC0, HC60, HC, HC27, HC57         | Genera la tabla de niños 6-59 m (con edad, sexo y NIVEL DE ANEMIA).                                        |
-| ★ Básico  | *RECH0*     | HHID, HV001, HV022, HV005               | Ponderador del hogar (HV005/1e6) + cluster (HV001) + estrato (HV022).                                      |
-| ★ Básico  | *RECH23*    | HHID, HV270 (ó HV270, HV271)            | Índice/quintil de riqueza (si *RECH0* ya lo trae, RECH23 se vuelve opcional).                              |
-| ★ Básico  | *RECH1*     | HHID, HVIDX, HV104, HV105, HV106, HV109 | Características de la madre (edad, educación) y del niño (sexo). <br>Enlazas con línea-madre HV112 = HC60. |
+- **Autor:** [Tu Nombre]
+- **Email:** [tu.email@dominio.com]
+- **Referencias:**  
+  - [Documentación de statsmodels OrderedModel](https://www.statsmodels.org/stable/generated/statsmodels.miscmodels.ordinal_model.OrderedModel.html)
+  - [ENDES - Instituto Nacional de Estadística e Informática (INEI)](https://www.inei.gob.pe)
 
-### Total imprescindible: *3 CSV*  
-(4 CSV si HV270 no está en tu RECH0 y lo lees desde RECH23).
+```
 
----
 
-### Extras útiles para modelos más completos
-
-| Archivo  | Variables                   | Aporte                                                                    |
-|----------|-----------------------------|---------------------------------------------------------------------------|
-| *RECH4*  | HHID, IDXH4, SH11C          | Cobertura SIS, actividad laboral materna (SH13).                          |
-| *RECH23* | HV201, HV205, HV226, HV237* | Agua, saneamiento, combustible, tratamiento del agua (control ambiental). |
-| *RECHM*  | HHID, NRO_ORDEN_ID y causa  | Bandera de “madre fallecida” o mortalidad reciente.                       |
-
-Empieza con los *básicos* para un flujo amigable; añade los “extras” cuando tu equipo quiera profundizar en confusores.

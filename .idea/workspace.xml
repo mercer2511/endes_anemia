@@ -4,21 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edca4416-90d5-4c47-8082-c92a20715d78" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/endes_anemia.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/RECH0_2023.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/RECH1_2023.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/RECH23_2023.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/RECH6_2023.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requerimientos.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/01_read_merge.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/02_model_ordinal.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils.py" afterDir="false" />
+    <list default="true" id="edca4416-90d5-4c47-8082-c92a20715d78" name="Changes" comment="Creación inicial del repositorio del proyecto">
+      <change afterPath="$PROJECT_DIR$/notebooks/Analisis_Endes.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/02_model_ordinal.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/02_model_ordinal.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +19,25 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "mercer2511"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mercer2511/endes_anemia.git",
+    "accountId": "e4287e04-10f9-4f95-ab08-b4269811ee6a"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -84,12 +87,25 @@
       <option name="presentableId" value="Default" />
       <updated>1749781261012</updated>
       <workItem from="1749781262184" duration="2048000" />
-      <workItem from="1749783394580" duration="2434000" />
+      <workItem from="1749783394580" duration="4963000" />
     </task>
+    <task id="LOCAL-00001" summary="Creación inicial del repositorio del proyecto">
+      <option name="closed" value="true" />
+      <created>1749785861425</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1749785861425</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Creación inicial del repositorio del proyecto" />
+    <option name="LAST_COMMIT_MESSAGE" value="Creación inicial del repositorio del proyecto" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/endes_anemia$01_read_merge.coverage" NAME="01_read_merge Coverage Results" MODIFIED="1749784296129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

@@ -40,7 +40,7 @@ if np.any(np.isinf(X)):
     X = X[~mask]
     y = y[~mask]
 
-# --- Eliminar la constante en X ya que OrderedModel no la permite.
+# --- Eliminar la constante en X, ya que OrderedModel no la permite.
 if 'const' in X.columns:
     X = X.drop('const', axis=1)
 
