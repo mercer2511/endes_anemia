@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edca4416-90d5-4c47-8082-c92a20715d78" name="Changes" comment="Creación inicial del repositorio del proyecto">
-      <change afterPath="$PROJECT_DIR$/notebooks/Analisis_Endes.ipynb" afterDir="false" />
+    <list default="true" id="edca4416-90d5-4c47-8082-c92a20715d78" name="Changes" comment="Se añadio Jupyter Notebook">
+      <change afterPath="$PROJECT_DIR$/docs/Metodologia_Anemia_Endes.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/Sugerencias_Variables.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/02_model_ordinal.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/02_model_ordinal.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +86,7 @@
       <option name="presentableId" value="Default" />
       <updated>1749781261012</updated>
       <workItem from="1749781262184" duration="2048000" />
-      <workItem from="1749783394580" duration="4963000" />
+      <workItem from="1749783394580" duration="7713000" />
     </task>
     <task id="LOCAL-00001" summary="Creación inicial del repositorio del proyecto">
       <option name="closed" value="true" />
@@ -97,7 +96,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749785861425</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Se añadio Jupyter Notebook">
+      <option name="closed" value="true" />
+      <created>1749789037395</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749789037395</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,7 +112,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Creación inicial del repositorio del proyecto" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creación inicial del repositorio del proyecto" />
+    <MESSAGE value="Se añadio Jupyter Notebook" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se añadio Jupyter Notebook" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/endes_anemia$01_read_merge.coverage" NAME="01_read_merge Coverage Results" MODIFIED="1749784296129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
