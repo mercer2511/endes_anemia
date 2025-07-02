@@ -114,8 +114,8 @@ Para reproducir el análisis:
 
 ## 9. Contacto y Referencias
 
-- **Autor:** [Tu Nombre]
-- **Email:** [tu.email@dominio.com]
+- **Autor:** Universidad Nacional de Cañete
+- **Email:** 2101080336@undc.edu.pe
 - **Referencias:**  
   - [Documentación de statsmodels OrderedModel](https://www.statsmodels.org/stable/generated/statsmodels.miscmodels.ordinal_model.OrderedModel.html)
   - [ENDES - Instituto Nacional de Estadística e Informática (INEI)](https://www.inei.gob.pe)
